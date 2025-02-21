@@ -1,9 +1,9 @@
 export const getEnv = (name) => {
   let value = null
-  if (import.meta.env.NODE_ENV === 'development' || import.meta.env.VITE_APP_FRONTEND_ENVIRONMENT === 'development') {
-    value = import.meta.env[name]
+  if (process.env.NODE_ENV === 'development' || process.env.VUE_APP_FRONTEND_ENVIRONMENT === 'development') {
+    value = process.env[name]
   } else {
-    value = (window.globalJSConfig || {})[name] || import.meta.env[name]
+    value = (window.globalJSConfig || {})[name] || process.env[name]
   }
   if (value === 'true') {
     return true

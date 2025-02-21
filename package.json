@@ -3,38 +3,50 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vite dev",
-    "build": "VITE_APP_FRONTEND_ENVIRONMENT=production vite build && node replace-env.js",
-    "build:staging": "vite build --mode staging",
-    "build:production": "vite build --mode production",
-    "preview": "vite preview",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+    "serve": "vue-cli-service serve",
+    "build": "VUE_APP_FRONTEND_ENVIRONMENT=production vue-cli-service build && node replace-env.js",
+    "build:staging": "vue-cli-service build --mode staging",
+    "build:production": "vue-cli-service build --mode production",
+    "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
-    "@k12tech/ekool-vue-framework": "git+https://gitlab+deploy-token-41:s4cS2LYug1EvXJ9MqNsL@gitlab.factory.digital/k12tech/vue-component-library.git#master",
+    "@k12tech/ekool-vue-framework": "git+https://gitlab+deploy-token-41:s4cS2LYug1EvXJ9MqNsL@gitlab.factory.digital/k12tech/vue-component-library.git#ekool-v-3.0.71",
     "axios": "^0.27.2",
-    "vue": "2.7.10",
-    "vue-i18n": "^8.27.1",
-    "vue-router": "^3.5.4",
-    "vuetify": "^2.6.6",
-    "vuex": "^3.6.2"
+    "core-js": "^3.22.8",
+    "js-cookie": "^3.0.5",
+    "pinia": "^2.2.2",
+    "vue": "^3.4.38",
+    "vue-gtag-next": "^1.14.0",
+    "vue-i18n": "^9.14.0",
+    "vue-router": "^4.2.4",
+    "vuetify": "^3.7.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/eslint-parser": "^7.18.2",
-    "@originjs/vite-plugin-require-context": "^1.0.9",
-    "@vitejs/plugin-vue2": "^1.1.2",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.23.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.7.1",
-    "lint-staged": "^13.0.0",
-    "prettier": "^2.6.2",
-    "sass": "~1.32.0",
-    "unplugin-vue-components": "^0.22.7",
-    "vite": "^3.1.0",
-    "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-html-env": "^1.2.4"
-  }
+    "@babel/core": "^7.25.2",
+    "@babel/eslint-parser": "^7.25.1",
+    "@vue/cli-plugin-babel": "~5.0.4",
+    "@vue/cli-plugin-eslint": "~5.0.4",
+    "@vue/cli-plugin-router": "~5.0.4",
+    "@vue/cli-service": "~5.0.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^9.27.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "sass": "^1.66.1",
+    "sass-loader": "^13.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -1,25 +1,22 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import i18n from './i18n'
-import vuetify from './plugins/vuetify'
-import VueEkoolPlugin from '@k12tech/ekool-vue-framework'
 import '@/scss/main.scss'
-import { axios } from './api'
+import { createApp } from 'vue'
+import App from './App.vue'
 
-Vue.prototype.$api = axios
-Vue.config.productionTip = false
+// plugins
+import VueGtag from 'vue-gtag-next'
+import i18n from './plugins/i18n'
+import pinia from './plugins/pinia'
+import vuetify from './plugins/vuetify'
+import router from './router'
 
-const context = {
-  vuetify,
-  router,
-  store,
-  i18n,
-}
-Vue.use(VueEkoolPlugin, { context })
-
-new Vue({
-  ...context,
-  render: (h) => h(App),
-}).$mount('#app')
+const app = createApp(App)
+app.use(vuetify)
+app.use(router)
+app.use(i18n)
+app.use(pinia)
+app.use(VueGtag, {
+  property: {
+    id: process.env.VUE_APP_FRONTEND_GTM_TAG_ID,
+  },
+})
+app.mount('#app')

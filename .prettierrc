@@ -9,6 +9,5 @@
   "proseWrap": "never",
   "htmlWhitespaceSensitivity": "strict",
   "endOfLine": "lf",
-  "prettier.spaceBeforeFunctionParen": true,
-  "prettier.jsxBracketSameLine": true
+  "bracketSameLine": true
 }

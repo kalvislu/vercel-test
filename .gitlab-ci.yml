@@ -7,6 +7,7 @@ variables:
 
 stages:
   - build
+  - s3-copy
   - deploy
 
 
@@ -27,26 +28,26 @@ build:
     - main
 
 
-deploy-ekool-staging-app:
-  stage: deploy
+
+s3-copy:
+  stage: s3-copy
+  image: docker:stable-git
   environment:
-    name: hz-staging
-    #change url with your
-    url: https://app.ekool.eu
-  variables:
-    GIT_STRATEGY: none
-  image: docker:latest
+    name: production
   script:
-    - apk update  && apk add --no-cache curl
-    - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    - chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
-    - kubectl --dry-run=client set image deployment/dashboard-frontend-default ekool-dashboard-frontend=$CI_REGISTRY_IMAGE:$CI_BUILD_TAG -n ekool-staging
-    #replace with new image
-    - kubectl set image deployment/dashboard-frontend-default ekool-dashboard-frontend=$CI_REGISTRY_IMAGE:$CI_BUILD_TAG -n ekool-staging
-    #wait till all pods are updated
-    - kubectl rollout status deploy dashboard-frontend-default -n ekool-staging
+    - printenv
+    # 2 options how to copy
+    # 1. write all script logic here in pipeline
+    # 2. write all logic and copy in separate dockerfile
+    # 1st approach is hard to debug, need to commit/push/tag
+    # 2nd approach easy to debug and can build image locally to test, more portable
+    # image is local so name does not matter much
+    #this gonna be long line.. todo check gitlab ci/cd yaml multiline script workaround
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY_IMAGE
+    - docker build --build-arg WEB_ASSETS_AWS_ACCESS_KEY_ID=$UNI_ASSETS_AWS_ACCESS_KEY_ID_GITLAB --build-arg WEB_ASSETS_AWS_SECRET_ACCESS_KEY=$UNI_ASSETS_AWS_SECRET_ACCESS_KEY_ID_GITLAB  --build-arg source_img=$CI_REGISTRY_IMAGE:$CI_BUILD_TAG --build-arg local_src=/var/www/app/public        --build-arg s3_dst=s3://web-assets.ekool.eu/individual-choices-frontend       --build-arg region=eu-central-1 --build-arg storage_class=STANDARD_IA --build-arg endpoint_flag="--endpoint-url https://s3.eu-central-1.wasabisys.com" -t ekool/s3-copy - < Dockerfile_s3_copy
+    #not sure about rmi, but will test
+    - docker rmi ekool/s3-copy
   only:
     - /^v-.*$/
   except:
     - main
-  when: manual

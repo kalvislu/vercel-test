@@ -1,0 +1,9 @@
+{
+	"example": {
+		"analytics": "Аналитика",
+		"home": "Главная\n",
+		"language": "Язык",
+		"router": "Роутер",
+		"store": "Pinia и хранилище"
+	}
+}

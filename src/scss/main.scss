@@ -1,1 +1,8 @@
-@import '@k12tech/ekool-vue-framework/src/scss/main.scss';
+@import '~@k12tech/ekool-vue-framework/src/scss/main.scss';
+@import "variables";
+
+@for $i from 0 through 6 {
+  .gap-#{$i} {
+    gap: $i * 4px;
+  }
+}
