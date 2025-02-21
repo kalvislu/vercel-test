@@ -1,0 +1,40 @@
+{
+  "name": "vue-app-base",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vite dev",
+    "build": "VITE_APP_FRONTEND_ENVIRONMENT=production vite build && node replace-env.js",
+    "build:staging": "vite build --mode staging",
+    "build:production": "vite build --mode production",
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+  },
+  "dependencies": {
+    "@k12tech/ekool-vue-framework": "git+https://gitlab+deploy-token-41:s4cS2LYug1EvXJ9MqNsL@gitlab.factory.digital/k12tech/vue-component-library.git#master",
+    "axios": "^0.27.2",
+    "vue": "2.7.10",
+    "vue-i18n": "^8.27.1",
+    "vue-router": "^3.5.4",
+    "vuetify": "^2.6.6",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/eslint-parser": "^7.18.2",
+    "@originjs/vite-plugin-require-context": "^1.0.9",
+    "@vitejs/plugin-vue2": "^1.1.2",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "lint-staged": "^13.0.0",
+    "prettier": "^2.6.2",
+    "sass": "~1.32.0",
+    "unplugin-vue-components": "^0.22.7",
+    "vite": "^3.1.0",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-html-env": "^1.2.4"
+  }
+}

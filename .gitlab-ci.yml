@@ -1,0 +1,52 @@
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: aufs
+
+
+stages:
+  - build
+  - deploy
+
+
+#Application
+#################################################################################################################
+build:
+  stage: build
+  image: docker:latest
+  environment: production
+  script:
+    - printenv
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY_IMAGE
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_BUILD_TAG -f Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$CI_BUILD_TAG
+  only:
+    - /^v-.*$/
+  except:
+    - main
+
+
+deploy-ekool-staging-app:
+  stage: deploy
+  environment:
+    name: hz-staging
+    #change url with your
+    url: https://app.ekool.eu
+  variables:
+    GIT_STRATEGY: none
+  image: docker:latest
+  script:
+    - apk update  && apk add --no-cache curl
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
+    - kubectl --dry-run=client set image deployment/dashboard-frontend-default ekool-dashboard-frontend=$CI_REGISTRY_IMAGE:$CI_BUILD_TAG -n ekool-staging
+    #replace with new image
+    - kubectl set image deployment/dashboard-frontend-default ekool-dashboard-frontend=$CI_REGISTRY_IMAGE:$CI_BUILD_TAG -n ekool-staging
+    #wait till all pods are updated
+    - kubectl rollout status deploy dashboard-frontend-default -n ekool-staging
+  only:
+    - /^v-.*$/
+  except:
+    - main
+  when: manual
