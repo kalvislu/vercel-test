@@ -1,42 +1,10 @@
 <template>
   <v-app>
-    <div class="pa-4">
+    <v-main>
       <div class="d-flex justify-center flex-grow-1">
-        <e-btn-group>
-          <e-btn-group-item to="/">
-            {{ $t('example.home') }}
-          </e-btn-group-item>
-          <e-btn-group-item to="/pinia">
-            {{ $t('example.store') }}
-          </e-btn-group-item>
-          <e-btn-group-item to="/axios"> Axios </e-btn-group-item>
-          <e-btn-group-item to="/language">
-            {{ $t('example.language') }}
-          </e-btn-group-item>
-          <e-btn-group-item to="/analytics">
-            {{ $t('example.analytics') }}
-          </e-btn-group-item>
-          <e-btn-group-item to="/router">
-            {{ $t('example.router') }}
-          </e-btn-group-item>
-        </e-btn-group>
-
-        <div class="ml-10 d-flex align-center">
-          <e-switch
-            v-model="themeValue"
-            true-value="dark"
-            false-value="light"
-            append-icon="icon-moon"
-            @update:model-value="changeTheme" />
-          <span class="mx-2"></span>
-        </div>
+        <router-view />
       </div>
-      <v-main>
-        <div class="pa-4 d-flex justify-center flex-grow-1">
-          <router-view />
-        </div>
-      </v-main>
-    </div>
+    </v-main>
   </v-app>
 </template>
 

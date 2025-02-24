@@ -1,11 +1,23 @@
+import AppLayout from '@/views/AppLayout.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
+import SchoolRegister from '@/views/SchoolRegister.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/HomePage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'SchoolRegister',
+    component: SchoolRegister,
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+  },
+  {
+    path: '/app-layout',
+    name: 'AppLayout',
+    component: AppLayout,
   },
   {
     path: '/axios',
