@@ -1,6 +1,7 @@
 import AppLayout from '@/views/AppLayout.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import SchoolRegister from '@/views/SchoolRegister.vue'
+import CalendarView from '@/views/CalendarView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
     path: '/app-layout',
     name: 'AppLayout',
     component: AppLayout,
+  },
+  {
+    path: '/calendar-view',
+    name: 'CalendarView',
+    component: CalendarView,
   },
   {
     path: '/axios',
