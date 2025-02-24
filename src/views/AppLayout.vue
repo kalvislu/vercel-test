@@ -5,62 +5,50 @@
         <div class="logo" aria-label="Company logo"></div>
       </div>
       <div class="language-selector">
-        <div class="language-dropdown">
-          <div class="language-icon"></div>
-          <div>EN</div>
-        </div>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/38d9faf7b7f8476181d3bfe72d56aca7/bda291ced527ad4b4ce5dc4d56c52b8591567688bca71b4975d83ccaca72df3f?apiKey=38d9faf7b7f8476181d3bfe72d56aca7&"
-          alt=""
-          class="dropdown-arrow"
-        />
+        <e-select v-model="lang" :items="languages" prepend-inner-icon="icon-globe" />
       </div>
     </header>
     <main class="main-content">
       <div class="content-wrapper">
-        <div class="image-column">
+        <div class="image-column d-lg-block d-none">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/38d9faf7b7f8476181d3bfe72d56aca7/5d88eb79e6d01a1554f35bfbc5bef5978cbe03758b3312924dbea5a10de77c4d?apiKey=38d9faf7b7f8476181d3bfe72d56aca7&"
             alt="Decorative login image"
-            class="login-image"
-          />
+            class="login-image" />
         </div>
         <div class="form-column">
           <div class="form-container">
             <form class="login-form" @submit.prevent="handleSubmit">
-              <h1 class="form-title">Login with password</h1>
+              <h1 class="form-title headline-1 text-graybase">Login with password</h1>
               <div class="form-fields">
                 <div class="passkey-info">
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets/38d9faf7b7f8476181d3bfe72d56aca7/050e057674976a1a981c0f930982057c2b9f23fb74381cc228a682fa7d23f479?apiKey=38d9faf7b7f8476181d3bfe72d56aca7&"
                     alt=""
-                    class="info-icon"
-                  />
+                    class="info-icon" />
                   <p class="info-text">
                     Want to log in with one click?
                     <a href="#" class="info-link">Learn more about Passkey</a>
                   </p>
                 </div>
                 <div class="form-field">
-                  <label for="email" class="field-label">Email</label>
-                  <input type="email" id="email" class="text-input" value="john@example.com" required />
+                  <e-text-field v-model="email" label="Email" size="large"></e-text-field>
                 </div>
                 <div class="form-field">
-                  <label for="password" class="field-label">Password</label>
-                  <div class="password-input">
-                    <input type="password" id="password" class="text-input" value="••••••••••••••••••••••••••••" required />
-                    <img
-                      src="https://cdn.builder.io/api/v1/image/assets/38d9faf7b7f8476181d3bfe72d56aca7/6e3b47e6b662b6963235f8dd84c584d1462cda2bc2c0d688973d7a46b13be680?apiKey=38d9faf7b7f8476181d3bfe72d56aca7&"
-                      alt="Toggle password visibility"
-                      class="password-toggle"
-                      @click="togglePasswordVisibility"
-                    />
-                  </div>
+                  <e-text-field
+                    v-model="password"
+                    label="Password"
+                    size="large"
+                    append-inner-icon="icon-eye"></e-text-field>
                 </div>
-                <a href="#" class="forgot-password">Forgot password?</a>
-                <button type="submit" class="submit-button">Continue with password</button>
+                <div class="d-flex">
+                  <e-btn size="small" variant="link" :block="false">Forgot password?</e-btn>
+                </div>
+                <e-btn size="large" variant="primary">Continue with password</e-btn>
               </div>
-              <a href="#" class="back-link">Back to Login</a>
+              <div class="back-link">
+                <e-btn size="small" variant="link" :block="false">Back to Login</e-btn>
+              </div>
             </form>
           </div>
         </div>
@@ -82,21 +70,38 @@
 </template>
 
 <script>
+import { ETextField } from '@k12tech/ekool-vue-framework/src/components/ETextField'
+import { EBtn } from '@k12tech/ekool-vue-framework/src/components/EBtn'
+import { ESelect } from '@k12tech/ekool-vue-framework/src/components/ESelect'
 export default {
   name: 'LoginForm',
+  components: {
+    ETextField,
+    EBtn,
+    ESelect,
+  },
+  data() {
+    return {
+      email: '',
+      password: '',
+      lang: 'EN',
+      languages: ['EN', 'ET', 'RU'],
+    }
+  },
   methods: {
     handleSubmit() {
       // Handle form submission
     },
     togglePasswordVisibility() {
       // Toggle password visibility
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
 .login-page {
+  width: 100%;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -126,7 +131,9 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  font: 400 16px Inter, sans-serif;
+  font:
+    400 16px Inter,
+    sans-serif;
   color: var(--Base-Graybase, #161718);
 }
 
@@ -169,6 +176,9 @@ export default {
 .image-column,
 .form-column {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-image {
@@ -190,7 +200,6 @@ export default {
 .form-title {
   font-size: 28px;
   font-weight: 600;
-  color: var(--Base-Graybase, #161718);
   margin-bottom: 24px;
 }
 
@@ -272,29 +281,28 @@ export default {
 }
 
 .back-link {
-  display: block;
   margin-top: 24px;
   padding-top: 32px;
-  font-size: 14px;
-  color: var(--Primary-300, #489ffe);
-  font-weight: 500;
   text-align: center;
 }
 
 .footer {
   background-color: var(--Base-Whitebase, #fff);
   padding: 20px 0;
-  font: 500 14px/1.4 Inter, sans-serif;
+  font:
+    500 14px/1.4 Inter,
+    sans-serif;
   color: var(--Base-Graybase, #161718);
+  width: 100%;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 .footer-nav {
